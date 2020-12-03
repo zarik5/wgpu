@@ -223,6 +223,7 @@ impl GlobalPlay for wgc::hub::Global<IdentityPassThroughFactory> {
                         wgc::pipeline::ShaderModuleSource::SpirV(Cow::Owned(spv))
                     },
                     label,
+                    experimental_translation: false,
                 };
                 let (_, error) = self.device_create_shader_module::<B>(device, &desc, id);
                 if let Some(e) = error {
