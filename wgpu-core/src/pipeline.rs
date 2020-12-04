@@ -15,22 +15,20 @@ use thiserror::Error;
 use wgt::{BufferAddress, IndexFormat, InputStepMode};
 
 #[derive(Debug)]
-#[cfg_attr(feature = "trace", derive(serde::Serialize))]
-#[cfg_attr(feature = "replay", derive(serde::Deserialize))]
 pub enum ShaderModuleSource<'a> {
     SpirV(Cow<'a, [u32]>),
     Wgsl(Cow<'a, str>),
-    // Unable to serialize with `naga::Module` in here:
-    // requires naga serialization feature.
-    //Naga(naga::Module),
+    Naga(Cow<'a, naga::Module>),
 }
 
 #[derive(Debug)]
-#[cfg_attr(feature = "trace", derive(serde::Serialize))]
-#[cfg_attr(feature = "replay", derive(serde::Deserialize))]
 pub struct ShaderModuleDescriptor<'a> {
     pub label: Label<'a>,
     pub source: ShaderModuleSource<'a>,
+    /// If enabled, `wgpu` will attempt to operate on `Naga` representation
+    /// of the shader module for both validation and translation into the
+    /// backend shader languages, where `gfx-hal` supports this.
+    pub experimental_translation: bool,
 }
 
 #[derive(Debug)]
@@ -59,6 +57,8 @@ impl<B: hal::Backend> Resource for ShaderModule<B> {
 
 #[derive(Clone, Debug, Error)]
 pub enum CreateShaderModuleError {
+    #[error("Failed to parse WGSL")]
+    Parsing,
     #[error(transparent)]
     Device(#[from] DeviceError),
     #[error(transparent)]
