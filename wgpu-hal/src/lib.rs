@@ -87,6 +87,9 @@ pub mod api {
     pub use super::vulkan::Api as Vulkan;
 }
 
+#[cfg(feature = "vulkan")]
+pub use vulkan::UpdateAfterBindTypes;
+
 use std::{
     borrow::Borrow,
     fmt,
