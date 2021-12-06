@@ -138,6 +138,12 @@ impl super::DeviceShared {
                         .pipeline_bind_point(vk::PipelineBindPoint::GRAPHICS)
                         .color_attachments(&color_refs)
                         .resolve_attachments(&resolve_refs);
+
+                    if vk_subpass.color_attachment_count == 0 {
+                        vk_subpass.p_color_attachments = 0 as _;
+                        vk_subpass.p_resolve_attachments = 0 as _;
+                    }
+
                     if let Some(ref reference) = ds_ref {
                         vk_subpass = vk_subpass.depth_stencil_attachment(reference)
                     }
