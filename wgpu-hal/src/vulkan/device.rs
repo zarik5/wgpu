@@ -68,7 +68,7 @@ impl super::DeviceShared {
                 let samples = vk::SampleCountFlags::from_raw(e.key().sample_count);
 
                 for cat in e.key().colors.iter() {
-                    log::error!("adding color attachment {:?}", cat);
+                    log::error!("adding color attachment");
 
                     color_refs.push(vk::AttachmentReference {
                         attachment: vk_attachments.len() as u32,
@@ -111,7 +111,7 @@ impl super::DeviceShared {
                 }
 
                 if let Some(ref ds) = e.key().depth_stencil {
-                    log::error!("adding depth stencil {:?}", ds);
+                    log::error!("adding depth stencil");
 
                     ds_ref = Some(vk::AttachmentReference {
                         attachment: vk_attachments.len() as u32,
