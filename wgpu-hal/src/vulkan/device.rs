@@ -1478,7 +1478,7 @@ impl crate::Device<super::Api> for super::Device {
             vk_attachments.push(vk_attachment.build());
         }
 
-        let vk_color_blend = vk::PipelineColorBlendStateCreateInfo::builder()
+        let mut vk_color_blend = vk::PipelineColorBlendStateCreateInfo::builder()
             .attachments(&vk_attachments)
             .build();
 
