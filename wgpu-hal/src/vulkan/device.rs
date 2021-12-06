@@ -141,7 +141,7 @@ impl super::DeviceShared {
 
                     if vk_subpass.color_attachment_count == 0 {
                         vk_subpass.p_color_attachments = 0 as _;
-                        vk_subpass.p_resolve_attachments = 0 as _;
+                        // vk_subpass.p_resolve_attachments = 0 as _;
                     }
 
                     if let Some(ref reference) = ds_ref {
