@@ -1490,10 +1490,14 @@ impl crate::Device<super::Api> for super::Device {
             .dynamic_states(&dynamic_states)
             .build();
 
+        print!("create raw pass");
+
         let raw_pass = self
             .shared
             .make_render_pass(compatible_rp_key)
             .map_err(crate::DeviceError::from)?;
+
+        print!("created raw pass, create pipeline");
 
         let vk_infos = [{
             vk::GraphicsPipelineCreateInfo::builder()
@@ -1510,6 +1514,8 @@ impl crate::Device<super::Api> for super::Device {
                 .render_pass(raw_pass)
                 .build()
         }];
+
+        print!("created pipeline");
 
         let mut raw_vec = {
             profiling::scope!("vkCreateGraphicsPipelines");
