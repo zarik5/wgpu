@@ -68,6 +68,8 @@ impl super::DeviceShared {
                 let samples = vk::SampleCountFlags::from_raw(e.key().sample_count);
 
                 for cat in e.key().colors.iter() {
+                    log::error!("adding color attachment {:?}", cat);
+
                     color_refs.push(vk::AttachmentReference {
                         attachment: vk_attachments.len() as u32,
                         layout: cat.base.layout,
@@ -109,6 +111,8 @@ impl super::DeviceShared {
                 }
 
                 if let Some(ref ds) = e.key().depth_stencil {
+                    log::error!("adding depth stencil {:?}", ds);
+
                     ds_ref = Some(vk::AttachmentReference {
                         attachment: vk_attachments.len() as u32,
                         layout: ds.base.layout,
@@ -148,7 +152,11 @@ impl super::DeviceShared {
                     vk_info.p_attachments = 0 as _;
                 }
 
+                log::error!("create render pass");
+
                 let raw = unsafe { self.raw.create_render_pass(&vk_info, None)? };
+
+                log::error!("render pass created");
 
                 *e.insert(raw)
             }
