@@ -1500,9 +1500,9 @@ impl crate::Device<super::Api> for super::Device {
             .attachments(&vk_attachments)
             .build();
 
-        if vk_color_blend.attachment_count == 0 {
-            vk_color_blend.p_attachments = 0 as _;
-        }
+        // if vk_color_blend.attachment_count == 0 {
+        //     vk_color_blend.p_attachments = 0 as _;
+        // }
 
         let vk_dynamic_state = vk::PipelineDynamicStateCreateInfo::builder()
             .dynamic_states(&dynamic_states)
