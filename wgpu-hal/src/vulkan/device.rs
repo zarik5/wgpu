@@ -140,9 +140,13 @@ impl super::DeviceShared {
                     vk_subpass.build()
                 }];
 
-                let vk_info = vk::RenderPassCreateInfo::builder()
+                let mut vk_info = vk::RenderPassCreateInfo::builder()
                     .attachments(&vk_attachments)
                     .subpasses(&vk_subpasses);
+
+                if vk_info.attachment_count == 0 {
+                    vk_info.p_attachments = 0 as _;
+                }
 
                 let raw = unsafe { self.raw.create_render_pass(&vk_info, None)? };
 
